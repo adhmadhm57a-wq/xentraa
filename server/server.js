@@ -1,55 +1,24 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+app.post("/login", async (req, res) => {
 
-const app = express();
+  const { username, password } = req.body;
 
-app.use(cors());
-app.use(express.json());
+  const student =
+    await Student.findOne({
+      username,
+      password
+    });
 
-mongoose.connect(
-  "ضع_رابط_mongodb_هنا"
-);
+  if (!student) {
 
-const StudentSchema = new mongoose.Schema({
+    return res.json({
+      success: false
+    });
 
-  username: String,
-  password: String,
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
 
-});
-
-const Student = mongoose.model(
-  "Student",
-  StudentSchema
-);
-
-app.post("/register", async (req, res) => {
-
-  const student = new Student(req.body);
-
-  await student.save();
-
   res.json({
-    message: "تم التسجيل"
+    success: true,
+    student
   });
-
-});
-
-app.get("/students", async (req, res) => {
-
-  const students =
-    await Student.find();
-
-  res.json(students);
-
-});
-
-app.listen(5000, () => {
-
-  console.log("Server Running");
 
 });
