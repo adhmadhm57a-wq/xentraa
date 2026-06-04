@@ -1,39 +1,55 @@
+import { useState } from "react";
+
 export default function Courses() {
 
-  const courses = [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "React",
-    "Node.js",
-    "Python"
-  ];
+  const [course, setCourse] = useState("");
+
+  const [video, setVideo] = useState("");
+
+  const addCourse = () => {
+
+    const courses =
+      JSON.parse(localStorage.getItem("courses")) || [];
+
+    courses.push({
+      course,
+      video
+    });
+
+    localStorage.setItem(
+      "courses",
+      JSON.stringify(courses)
+    );
+
+    alert("تم رفع الكورس");
+
+  };
 
   return (
 
     <div className="container">
 
       <h1>
-        الكورسات
+        إدارة الكورسات
       </h1>
 
-      {
-        courses.map((course, index) => (
+      <input
+        placeholder="اسم الكورس"
+        onChange={(e) =>
+          setCourse(e.target.value)
+        }
+      />
 
-          <div className="card" key={index}>
+      <input
+        placeholder="رابط الفيديو"
+        onChange={(e) =>
+          setVideo(e.target.value)
+        }
+      />
 
-            <h2>
-              {course}
-            </h2>
-
-            <button>
-              مشاهدة الكورس
-            </button>
-
-          </div>
-
-        ))
-      }
+      <button onClick={addCourse}>
+        رفع الكورس
+      </button>
 
     </div>
   );
