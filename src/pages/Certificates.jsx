@@ -1,33 +1,75 @@
+import jsPDF from "jspdf";
+import { useState } from "react";
+
 export default function Certificates() {
 
-  const students =
-    JSON.parse(localStorage.getItem("students")) || [];
+  const [name, setName] = useState("");
+
+  const generateCertificate = () => {
+
+    if (!name) {
+      return alert("اكتب اسم الطالب");
+    }
+
+    const doc = new jsPDF();
+
+    // Title
+    doc.setFontSize(24);
+
+    doc.text("Xentra Certificate", 60, 40);
+
+    // Student
+    doc.setFontSize(18);
+
+    doc.text(
+      `This certificate is awarded to`,
+      55,
+      70
+    );
+
+    doc.setFontSize(22);
+
+    doc.text(name, 80, 90);
+
+    // Course
+    doc.setFontSize(16);
+
+    doc.text(
+      "For successfully completing programming courses",
+      20,
+      120
+    );
+
+    // Footer
+    doc.text(
+      "Developed by Adham Ahmed",
+      60,
+      170
+    );
+
+    doc.save(`${name}-certificate.pdf`);
+  };
 
   return (
-
     <div className="container">
 
-      <h1>
-        الشهادات
-      </h1>
+      <h1>الشهادات</h1>
 
-      {
-        students.map((student, index) => (
+      <div className="card">
 
-          <div className="card" key={index}>
+        <input
+          placeholder="اسم الطالب"
+          value={name}
+          onChange={(e) =>
+            setName(e.target.value)
+          }
+        />
 
-            <h2>
-              شهادة إتمام
-            </h2>
+        <button onClick={generateCertificate}>
+          تحميل الشهادة PDF
+        </button>
 
-            <p>
-              {student.username}
-            </p>
-
-          </div>
-
-        ))
-      }
+      </div>
 
     </div>
   );
