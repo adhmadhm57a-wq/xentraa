@@ -6,6 +6,10 @@ export default function Home() {
 
     <div className="container">
 
+      <p className="topText">
+        تصميم وتطوير Adham Ahmed
+      </p>
+
       <h1>
         Xentra
       </h1>
@@ -14,31 +18,19 @@ export default function Home() {
         تعلم البرمجة من الصفر حتى الاحتراف
       </p>
 
-      <Link to="/login">
+      <div className="grid">
 
-        <button>
-          دخول الأدمن
-        </button>
+        <div className="card">
+          <h2>كورسات احترافية</h2>
+        </div>
 
-      </Link>
+        <div className="card">
+          <h2>امتحانات وشهادات</h2>
+        </div>
 
-      <div className="card">
-
-        <h2>
-          منصة تعليم برمجة احترافية
-        </h2>
-
-        <p>
-          كورسات حديثة
-        </p>
-
-        <p>
-          شهادات للطلاب
-        </p>
-
-        <p>
-          مشاريع عملية
-        </p>
+        <div className="card">
+          <h2>AI Assistant</h2>
+        </div>
 
       </div>
 
@@ -47,10 +39,6 @@ export default function Home() {
         <h2>
           تواصل معنا
         </h2>
-
-        <p>
-          Gmail:
-        </p>
 
         <p>
           domaelmnwofy@gmail.com
@@ -63,18 +51,24 @@ export default function Home() {
         >
 
           <button>
-            تواصل واتساب
+            واتساب
           </button>
 
         </a>
 
       </div>
 
-      <footer>
+      <div className="bottomAdmin">
 
-        تطوير Adham Ahmed
+        <Link to="/login">
 
-      </footer>
+          <button>
+            دخول الأدمن
+          </button>
+
+        </Link>
+
+      </div>
 
     </div>
   );
