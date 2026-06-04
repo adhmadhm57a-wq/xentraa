@@ -1,18 +1,31 @@
+import { useEffect, useState } from "react";
+
 export default function Students() {
 
-  const students = [
-    "Ahmed",
-    "Mohamed",
-    "Ali",
-    "Youssef"
-  ];
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+
+    fetch(
+      "https://YOUR_BACKEND_URL/students"
+    )
+
+    .then((res) => res.json())
+
+    .then((data) => {
+
+      setStudents(data);
+
+    });
+
+  }, []);
 
   return (
 
     <div className="container">
 
       <h1>
-        الطلاب
+        الطلاب المسجلين
       </h1>
 
       {
@@ -21,12 +34,8 @@ export default function Students() {
           <div className="card" key={index}>
 
             <h2>
-              {student}
+              {student.username}
             </h2>
-
-            <p>
-              طالب برمجة
-            </p>
 
           </div>
 
