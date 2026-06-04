@@ -6,6 +6,10 @@ import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import Teachers from "./pages/Teachers";
 import Courses from "./pages/Courses";
+import Register from "./pages/Register";
+import AIChat from "./pages/AIChat";
+import Exams from "./pages/Exams";
+import Certificates from "./pages/Certificates";
 
 export default function App() {
 
@@ -19,6 +23,8 @@ export default function App() {
 
         <Route path="/login" element={<Login />} />
 
+        <Route path="/register" element={<Register />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/students" element={<Students />} />
@@ -26,6 +32,12 @@ export default function App() {
         <Route path="/teachers" element={<Teachers />} />
 
         <Route path="/courses" element={<Courses />} />
+
+        <Route path="/ai" element={<AIChat />} />
+
+        <Route path="/exams" element={<Exams />} />
+
+        <Route path="/certificates" element={<Certificates />} />
 
       </Routes>
 
