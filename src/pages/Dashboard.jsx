@@ -8,6 +8,9 @@ export default function Dashboard() {
   const courses =
     JSON.parse(localStorage.getItem("courses")) || [];
 
+  const teachers =
+    JSON.parse(localStorage.getItem("teachers")) || [];
+
   return (
 
     <div className="container">
@@ -33,12 +36,40 @@ export default function Dashboard() {
         <div className="card">
 
           <h2>
+            عدد المدرسين
+          </h2>
+
+          <p>
+            {teachers.length}
+          </p>
+
+        </div>
+
+        <div className="card">
+
+          <h2>
             عدد الكورسات
           </h2>
 
           <p>
             {courses.length}
           </p>
+
+        </div>
+
+        <div className="card">
+
+          <h2>
+            إدارة المدرسين
+          </h2>
+
+          <Link to="/teachers">
+
+            <button>
+              فتح
+            </button>
+
+          </Link>
 
         </div>
 
@@ -61,42 +92,10 @@ export default function Dashboard() {
         <div className="card">
 
           <h2>
-            AI Chat
-          </h2>
-
-          <Link to="/ai">
-
-            <button>
-              فتح
-            </button>
-
-          </Link>
-
-        </div>
-
-        <div className="card">
-
-          <h2>
             الامتحانات
           </h2>
 
           <Link to="/exams">
-
-            <button>
-              فتح
-            </button>
-
-          </Link>
-
-        </div>
-
-        <div className="card">
-
-          <h2>
-            الشهادات
-          </h2>
-
-          <Link to="/certificates">
 
             <button>
               فتح
