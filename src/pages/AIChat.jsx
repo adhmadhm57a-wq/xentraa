@@ -28,16 +28,28 @@ export default function AIChat() {
             model: "gpt-4o-mini",
 
             messages: [
+
               {
                 role: "system",
+
                 content:
-                  "أنت مساعد برمجة ذكي لمنصة Xentra"
+                  `
+                  أنت AI Teacher لمنصة Xentra.
+
+                  مهامك:
+                  - شرح البرمجة بالعربي
+                  - حل الأخطاء
+                  - شرح الأكواد
+                  - إعطاء تدريبات
+                  - مساعدة الطلاب خطوة بخطوة
+                  `
               },
 
               {
                 role: "user",
                 content: message
               }
+
             ]
 
           })
@@ -64,12 +76,13 @@ export default function AIChat() {
   return (
     <div className="container">
 
-      <h1>AI Chat</h1>
+      <h1>AI Teacher 🤖</h1>
 
       <div className="card">
 
         <textarea
-          placeholder="اسأل AI"
+          rows="6"
+          placeholder="اسأل AI Teacher"
           value={message}
           onChange={(e)=>
             setMessage(e.target.value)
@@ -88,7 +101,9 @@ export default function AIChat() {
 
           <h3>الرد:</h3>
 
-          <p>{reply}</p>
+          <p style={{whiteSpace:"pre-wrap"}}>
+            {reply}
+          </p>
 
         </div>
 
