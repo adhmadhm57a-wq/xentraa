@@ -2,111 +2,101 @@ import { Link } from "react-router-dom";
 
 export default function Dashboard() {
 
-  const students =
-    JSON.parse(localStorage.getItem("students")) || [];
+  const admin = localStorage.getItem("admin");
 
-  const courses =
-    JSON.parse(localStorage.getItem("courses")) || [];
-
-  const teachers =
-    JSON.parse(localStorage.getItem("teachers")) || [];
+  if (!admin) {
+    return (
+      <div className="container">
+        <h2>ممنوع الدخول</h2>
+        <p>هذه الصفحة للأدمن فقط</p>
+      </div>
+    );
+  }
 
   return (
-
     <div className="container">
 
-      <h1>
-        لوحة تحكم Xentra
-      </h1>
+      {/* Header */}
+      <h1>لوحة تحكم الأدمن</h1>
 
+      <p className="small">
+        إدارة منصة Xentra
+      </p>
+
+      {/* Stats (بسيطة MVP) */}
+      <div className="card">
+
+        <h3>إحصائيات سريعة</h3>
+
+        <p>
+          الطلاب: {JSON.parse(localStorage.getItem("students") || "[]").length}
+        </p>
+
+        <p>
+          المدرسين: {JSON.parse(localStorage.getItem("teachers") || "[]").length}
+        </p>
+
+        <p>
+          الكورسات: {JSON.parse(localStorage.getItem("courses") || "[]").length}
+        </p>
+
+      </div>
+
+      {/* Admin Controls */}
       <div className="grid">
 
-        <div className="card">
+        <Link to="/students">
+          <button>الطلاب</button>
+        </Link>
 
-          <h2>
-            عدد الطلاب
-          </h2>
+        <Link to="/teachers">
+          <button>المدرسين</button>
+        </Link>
 
-          <p>
-            {students.length}
-          </p>
+        <Link to="/courses">
+          <button>الكورسات</button>
+        </Link>
 
-        </div>
+        <Link to="/exams">
+          <button>الاختبارات</button>
+        </Link>
 
-        <div className="card">
+        <Link to="/certificates">
+          <button>الشهادات</button>
+        </Link>
 
-          <h2>
-            عدد المدرسين
-          </h2>
+        <Link to="/ai">
+          <button>AI مساعد</button>
+        </Link>
 
-          <p>
-            {teachers.length}
-          </p>
+        <Link to="/payments-admin">
+          <button>مراجعة الاشتراكات</button>
+        </Link>
 
-        </div>
+        <Link to="/support">
+          <button>الدعم الفني</button>
+        </Link>
 
-        <div className="card">
+      </div>
 
-          <h2>
-            عدد الكورسات
-          </h2>
+      {/* Danger Zone */}
+      <div className="card">
 
-          <p>
-            {courses.length}
-          </p>
+        <h3>أدوات متقدمة</h3>
 
-        </div>
-
-        <div className="card">
-
-          <h2>
-            إدارة المدرسين
-          </h2>
-
-          <Link to="/teachers">
-
-            <button>
-              فتح
-            </button>
-
-          </Link>
-
-        </div>
-
-        <div className="card">
-
-          <h2>
-            إدارة الكورسات
-          </h2>
-
-          <Link to="/courses">
-
-            <button>
-              فتح
-            </button>
-
-          </Link>
-
-        </div>
-
-        <div className="card">
-
-          <h2>
-            الامتحانات
-          </h2>
-
-          <Link to="/exams">
-
-            <button>
-              فتح
-            </button>
-
-          </Link>
-
-        </div>
+        <button
+          onClick={() => {
+            localStorage.clear();
+            alert("تم مسح البيانات");
+            window.location.reload();
+          }}
+          style={{ background: "red" }}
+        >
+          مسح كل البيانات
+        </button>
 
       </div>
 
     </div>
   );
-}
+          }
