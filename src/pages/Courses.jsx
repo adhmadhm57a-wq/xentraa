@@ -4,7 +4,7 @@ export default function Courses() {
 
   const [course, setCourse] = useState("");
 
-  const [video, setVideo] = useState("");
+  const [video, setVideo] = useState(null);
 
   const [codeFile, setCodeFile] = useState("");
 
@@ -32,9 +32,20 @@ export default function Courses() {
 
     }
 
+    if (!video) {
+
+      alert("اختر فيديو");
+
+      return;
+
+    }
+
+    const videoURL =
+      URL.createObjectURL(video);
+
     const newCourse = {
       course,
-      video,
+      video: videoURL,
       codeFile
     };
 
@@ -72,14 +83,15 @@ export default function Courses() {
         />
 
         <input
-          placeholder="رابط فيديو الشرح"
+          type="file"
+          accept="video/*"
           onChange={(e) =>
-            setVideo(e.target.value)
+            setVideo(e.target.files[0])
           }
         />
 
         <input
-          placeholder="رابط ملف الأكواد"
+          placeholder="رابط ملفات الأكواد"
           onChange={(e) =>
             setCodeFile(e.target.value)
           }
@@ -100,13 +112,17 @@ export default function Courses() {
               {item.course}
             </h2>
 
-            <iframe
+            <video
               width="100%"
-              height="220"
-              src={item.video}
-              title="video"
-              allowFullScreen
-            />
+              controls
+            >
+
+              <source
+                src={item.video}
+                type="video/mp4"
+              />
+
+            </video>
 
             <br />
 
