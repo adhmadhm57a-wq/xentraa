@@ -6,22 +6,27 @@ export default function Register() {
 
   const [password, setPassword] = useState("");
 
-  const register = () => {
+  const register = async () => {
 
-    const users =
-      JSON.parse(localStorage.getItem("students")) || [];
+    const response = await fetch(
+      "https://YOUR_BACKEND_URL/register",
+      {
+        method: "POST",
 
-    users.push({
-      username,
-      password
-    });
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-    localStorage.setItem(
-      "students",
-      JSON.stringify(users)
+        body: JSON.stringify({
+          username,
+          password
+        })
+      }
     );
 
-    alert("تم إنشاء الحساب");
+    const data = await response.json();
+
+    alert(data.message);
 
   };
 
