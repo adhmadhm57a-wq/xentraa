@@ -1,0 +1,9 @@
+{
+  "name": "Xentra",
+  "short_name": "Xentra",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050816",
+  "theme_color": "#00bfff",
+  "icons": []
+}
