@@ -20,7 +20,7 @@ export default function AIChat() {
             "Content-Type": "application/json",
 
             Authorization:
-              "Bearer YOUR_OPENAI_API_KEY"
+              "Bearer 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"
           },
 
           body: JSON.stringify({
