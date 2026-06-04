@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import StudentLogin from "./pages/StudentLogin";
+import StudentPanel from "./pages/StudentPanel";
 import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import Teachers from "./pages/Teachers";
@@ -22,6 +24,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/login" element={<Login />} />
+
+        <Route path="/student-login" element={<StudentLogin />} />
+
+        <Route path="/student-panel" element={<StudentPanel />} />
 
         <Route path="/register" element={<Register />} />
 
