@@ -2,146 +2,159 @@ import { useState, useEffect } from "react";
 
 export default function Courses() {
 
-  const [course, setCourse] = useState("");
-
+  const [title, setTitle] = useState("");
   const [video, setVideo] = useState(null);
-
-  const [codeFile, setCodeFile] = useState("");
+  const [file, setFile] = useState("");
+  const [type, setType] = useState("free");
 
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-
-    const savedCourses =
-      JSON.parse(localStorage.getItem("courses")) || [];
-
-    setCourses(savedCourses);
-
+    const saved = JSON.parse(localStorage.getItem("courses")) || [];
+    setCourses(saved);
   }, []);
 
   const addCourse = () => {
 
-    const admin =
-      localStorage.getItem("admin");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const admin = localStorage.getItem("admin");
 
-    if (!admin) {
-
-      alert("الأدمن فقط");
-
-      return;
-
+    if (!admin && (!user || user.role !== "teacher")) {
+      return alert("غير مصرح");
     }
-
-    if (!video) {
-
-      alert("اختر فيديو");
-
-      return;
-
-    }
-
-    const videoURL =
-      URL.createObjectURL(video);
 
     const newCourse = {
-      course,
-      video: videoURL,
-      codeFile
+      id: Date.now(),
+      title,
+      video: video ? URL.createObjectURL(video) : "",
+      file,
+      type,
+      createdBy: user?.username || "admin"
     };
 
-    const updatedCourses = [
-      ...courses,
-      newCourse
-    ];
+    const updated = [...courses, newCourse];
 
-    setCourses(updatedCourses);
+    setCourses(updated);
+    localStorage.setItem("courses", JSON.stringify(updated));
 
-    localStorage.setItem(
-      "courses",
-      JSON.stringify(updatedCourses)
-    );
-
-    alert("تم رفع الكورس");
+    setTitle("");
+    setVideo(null);
+    setFile("");
+    setType("free");
 
   };
 
-  return (
+  // 🛒 الكورسات المشتراة
+  const purchased =
+    JSON.parse(localStorage.getItem("purchasedCourses")) || [];
 
+  const buyCourse = (id) => {
+
+    const updated = [...purchased, id];
+
+    localStorage.setItem(
+      "purchasedCourses",
+      JSON.stringify(updated)
+    );
+
+    alert("تم شراء الكورس");
+  };
+
+  return (
     <div className="container">
 
-      <h1>
-        إدارة الكورسات
-      </h1>
+      <h1>الكورسات</h1>
 
-      <div className="card">
+      {/* ➕ إضافة كورس */}
+      {(localStorage.getItem("admin") ||
+        JSON.parse(localStorage.getItem("user"))?.role === "teacher") && (
 
-        <input
-          placeholder="اسم الكورس"
-          onChange={(e) =>
-            setCourse(e.target.value)
-          }
-        />
+        <div className="card">
 
-        <input
-          type="file"
-          accept="video/*"
-          onChange={(e) =>
-            setVideo(e.target.files[0])
-          }
-        />
+          <h3>إضافة كورس</h3>
 
-        <input
-          placeholder="رابط ملفات الأكواد"
-          onChange={(e) =>
-            setCodeFile(e.target.value)
-          }
-        />
+          <input
+            placeholder="اسم الكورس"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
 
-        <button onClick={addCourse}>
-          رفع الكورس
-        </button>
+          <input
+            type="file"
+            accept="video/*"
+            onChange={(e) => setVideo(e.target.files[0])}
+          />
 
-      </div>
+          <input
+            placeholder="ملفات"
+            value={file}
+            onChange={(e) => setFile(e.target.value)}
+          />
 
-      {
-        courses.map((item, index) => (
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          >
+            <option value="free">مجاني</option>
+            <option value="premium">مدفوع</option>
+          </select>
 
-          <div className="card" key={index}>
+          <button onClick={addCourse}>
+            نشر الكورس
+            </button>
 
-            <h2>
-              {item.course}
-            </h2>
+        </div>
+      )}
 
-            <video
-              width="100%"
-              controls
-            >
+      {/* 📺 عرض الكورسات */}
+      {courses.map((c) => {
 
-              <source
-                src={item.video}
-                type="video/mp4"
-              />
+        const isPurchased = purchased.includes(c.id);
 
-            </video>
+        return (
 
-            <br />
+          <div className="card" key={c.id}>
 
-            <a
-              href={item.codeFile}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <h3>{c.title}</h3>
 
-              <button>
-                تحميل ملفات الأكواد
-              </button>
+            <p>بواسطة: {c.createdBy}</p>
 
-            </a>
+            {/* 🔒 الحماية */}
+            {c.type === "premium" && !isPurchased ? (
+
+              <>
+                <p style={{ color: "red" }}>
+                  🔒 هذا كورس مدفوع
+                </p>
+
+                <button onClick={() => buyCourse(c.id)}>
+                  شراء الكورس
+                </button>
+              </>
+
+            ) : (
+
+              <>
+                {c.video && (
+                  <video width="100%" controls>
+                    <source src={c.video} />
+                  </video>
+                )}
+
+                {c.file && (
+                  <a href={c.file} target="_blank">
+                    تحميل الملفات
+                  </a>
+                )}
+              </>
+
+            )}
 
           </div>
 
-        ))
-      }
+        );
+
+      })}
 
     </div>
   );
