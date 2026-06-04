@@ -1,59 +1,95 @@
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
   const [username, setUsername] = useState("");
-
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const login = () => {
 
+    // 👑 الأدمن الأساسي
     if (
-
       username === "admin" &&
-      password === "123456"
-
+      password === "admin123"
     ) {
 
       localStorage.setItem("admin", "true");
 
       navigate("/dashboard");
 
-    } else {
-
-      alert("بيانات غلط");
-
+      return;
     }
+
+    // 👨‍🏫 المدرسين
+    const users =
+      JSON.parse(localStorage.getItem("users")) || [];
+
+    const user = users.find(
+      (u) =>
+        u.username === username &&
+        u.password === password
+    );
+
+    if (!user) {
+      return alert("بيانات خاطئة");
+    }
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify(user)
+    );
+
+    // 👨‍🏫 مدرس
+    if (user.role === "teacher") {
+
+      navigate("/teacher-panel");
+
+      return;
+    }
+
+    // 👨‍🎓 طالب
+    if (user.role === "student") {
+
+      navigate("/student-panel");
+
+      return;
+    }
+
   };
 
   return (
-
     <div className="container">
 
-      <h1>
-        تسجيل دخول الأدمن
-      </h1>
+      <h1>تسجيل الدخول</h1>
 
-      <input
-        type="text"
-        placeholder="اسم المستخدم"
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <div className="card">
 
-      <input
-        type="password"
-        placeholder="كلمة المرور"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          placeholder="اسم المستخدم"
+          value={username}
+          onChange={(e) =>
+            setUsername(e.target.value)
+          }
+        />
 
-      <button onClick={handleLogin}>
-        دخول
-      </button>
+        <input
+          type="password"
+          placeholder="كلمة المرور"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+        />
+
+        <button onClick={login}>
+          دخول
+        </button>
+
+      </div>
 
     </div>
   );
-}
+      }
