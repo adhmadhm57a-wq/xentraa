@@ -3,54 +3,96 @@ import { useState } from "react";
 export default function AIChat() {
 
   const [message, setMessage] = useState("");
-
   const [reply, setReply] = useState("");
 
-  const send = () => {
+  const sendMessage = async () => {
 
-    if (
-      message.includes("html")
-    ) {
+    if (!message) return;
 
-      setReply(
-        "HTML هي لغة بناء صفحات الويب"
+    try {
+
+      const res = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization:
+              "Bearer YOUR_OPENAI_API_KEY"
+          },
+
+          body: JSON.stringify({
+
+            model: "gpt-4o-mini",
+
+            messages: [
+              {
+                role: "system",
+                content:
+                  "أنت مساعد برمجة ذكي لمنصة Xentra"
+              },
+
+              {
+                role: "user",
+                content: message
+              }
+            ]
+
+          })
+
+        }
       );
 
-    } else {
+      const data = await res.json();
 
       setReply(
-        "AI Xentra جاهز لمساعدتك"
+        data.choices[0].message.content
       );
+
+    } catch (err) {
+
+      console.log(err);
+
+      alert("حدث خطأ");
 
     }
+
   };
 
   return (
-
     <div className="container">
 
-      <h1>
-        AI Chat
-      </h1>
-
-      <input
-        placeholder="اكتب رسالتك"
-        onChange={(e) =>
-          setMessage(e.target.value)
-        }
-      />
-
-      <button onClick={send}>
-        إرسال
-      </button>
+      <h1>AI Chat</h1>
 
       <div className="card">
 
-        <p>
-          {reply}
-        </p>
+        <textarea
+          placeholder="اسأل AI"
+          value={message}
+          onChange={(e)=>
+            setMessage(e.target.value)
+          }
+        />
+
+        <button onClick={sendMessage}>
+          إرسال
+        </button>
 
       </div>
+
+      {reply && (
+
+        <div className="card">
+
+          <h3>الرد:</h3>
+
+          <p>{reply}</p>
+
+        </div>
+
+      )}
 
     </div>
   );
