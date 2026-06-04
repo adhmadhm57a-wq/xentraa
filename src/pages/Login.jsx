@@ -1,95 +1,80 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function TeacherPanel() {
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const user =
+    JSON.parse(localStorage.getItem("user"));
 
-  const navigate = useNavigate();
+  if (!user || user.role !== "teacher") {
 
-  const login = () => {
+    return (
+      <div className="container">
 
-    // 👑 الأدمن الأساسي
-    if (
-      username === "admin" &&
-      password === "admin123"
-    ) {
+        <h2>ممنوع الدخول</h2>
 
-      localStorage.setItem("admin", "true");
-
-      navigate("/dashboard");
-
-      return;
-    }
-
-    // 👨‍🏫 المدرسين
-    const users =
-      JSON.parse(localStorage.getItem("users")) || [];
-
-    const user = users.find(
-      (u) =>
-        u.username === username &&
-        u.password === password
+      </div>
     );
-
-    if (!user) {
-      return alert("بيانات خاطئة");
-    }
-
-    localStorage.setItem(
-      "user",
-      JSON.stringify(user)
-    );
-
-    // 👨‍🏫 مدرس
-    if (user.role === "teacher") {
-
-      navigate("/teacher-panel");
-
-      return;
-    }
-
-    // 👨‍🎓 طالب
-    if (user.role === "student") {
-
-      navigate("/student-panel");
-
-      return;
-    }
-
-  };
+  }
 
   return (
     <div className="container">
 
-      <h1>تسجيل الدخول</h1>
+      {/* 👨‍🏫 بيانات المدرس */}
+      <h1>لوحة المدرس</h1>
 
       <div className="card">
 
-        <input
-          placeholder="اسم المستخدم"
-          value={username}
-          onChange={(e) =>
-            setUsername(e.target.value)
-          }
-        />
+        <h3>
+          مرحباً {user.username}
+        </h3>
 
-        <input
-          type="password"
-          placeholder="كلمة المرور"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+        <p>
+          يمكنك إدارة الكورسات الخاصة بك
+        </p>
 
-        <button onClick={login}>
-          دخول
+      </div>
+
+      {/* 📚 أدوات المدرس */}
+      <div className="grid">
+
+        <Link to="/courses">
+          <button>
+            إدارة الكورسات
+          </button>
+        </Link>
+
+        <Link to="/exams">
+          <button>
+            إدارة الاختبارات
+          </button>
+        </Link>
+
+        <Link to="/support">
+          <button>
+            الدعم الفني
+          </button>
+        </Link>
+
+      </div>
+
+      {/* 🚪 تسجيل خروج */}
+      <div className="card">
+
+        <button
+          style={{ background: "red" }}
+          onClick={() => {
+
+            localStorage.removeItem("user");
+
+            window.location.href = "/";
+
+          }}
+        >
+          تسجيل خروج
         </button>
 
       </div>
 
     </div>
   );
-      }
+}
