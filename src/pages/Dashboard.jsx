@@ -1,22 +1,9 @@
-import { useEffect } from "react";
-
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-
-    const admin = localStorage.getItem("admin");
-
-    if (!admin) {
-
-      navigate("/login");
-
-    }
-
-  }, []);
+  const students =
+    JSON.parse(localStorage.getItem("students")) || [];
 
   return (
 
@@ -31,10 +18,22 @@ export default function Dashboard() {
         <div className="card">
 
           <h2>
-            الطلاب
+            عدد الطلاب
           </h2>
 
-          <Link to="/students">
+          <p>
+            {students.length}
+          </p>
+
+        </div>
+
+        <div className="card">
+
+          <h2>
+            الذكاء الاصطناعي
+          </h2>
+
+          <Link to="/ai">
 
             <button>
               فتح
@@ -47,10 +46,10 @@ export default function Dashboard() {
         <div className="card">
 
           <h2>
-            المدرسين
+            الامتحانات
           </h2>
 
-          <Link to="/teachers">
+          <Link to="/exams">
 
             <button>
               فتح
@@ -63,10 +62,10 @@ export default function Dashboard() {
         <div className="card">
 
           <h2>
-            الكورسات
+            الشهادات
           </h2>
 
-          <Link to="/courses">
+          <Link to="/certificates">
 
             <button>
               فتح
