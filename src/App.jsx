@@ -14,16 +14,37 @@ export default function App() {
 
       <Routes>
 
-        <Route path="/" element={<Home />} />
+        {/* 🏠 الصفحة الرئيسية */}
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-        <Route path="/login" element={<Login />} />
+        {/* 🔐 تسجيل الدخول */}
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* 👑 لوحة الأدمن */}
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
 
-        <Route path="/courses" element={<Courses />} />
+        {/* 📚 الكورسات */}
+        <Route
+          path="/courses"
+          element={<Courses />}
+        />
 
-        <Route path="/teachers" element={<Teachers />} />
+        {/* 👨‍🏫 إدارة المدرسين */}
+        <Route
+          path="/teachers"
+          element={<Teachers />}
+        />
 
+        {/* 👨‍🏫 لوحة المدرس */}
         <Route
           path="/teacher-panel"
           element={<TeacherPanel />}
